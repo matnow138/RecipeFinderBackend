@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: Recipe_Finder
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: false
+    show-sql: true
+    defer-datasource-initialization: true
+server:
+  port: 8082
+
