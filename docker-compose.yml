@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./recipe-frontend
+      ports:
+        - 8080:8080
+

@@ -31,8 +31,7 @@ public class ProductService {
 
         ProductDto mappedProductDto = objectMapper.readValue(productDto, ProductDto.class);
         Product product = productDao.save(productMapper.mapToProduct(mappedProductDto));
-        ProductDto productDto1 = productMapper.mapToProductDto(product);
-        return productDto1;
+        return productMapper.mapToProductDto(product);
     }
 
     public void deleteProduct(String productDto) throws ProductNotFoundException, JsonProcessingException {
@@ -55,6 +54,12 @@ public class ProductService {
     public ProductDto updateProduct(ProductDto productDto) {
         logger.info("to update product {}", productDto);
         productDao.deleteById(productDto.getId());
+        return productMapper.mapToProductDto(addOrUpdateProdudct(productDto));
+
+
+    }
+
+    private Product addOrUpdateProdudct(ProductDto productDto){
         Product product = productMapper.mapToProduct(productDto);
         if (productDto.getId() == null) {
             productDao.save(productMapper.mapToProduct(productDto));
@@ -63,26 +68,7 @@ public class ProductService {
             productDao.save(product);
         }
         logger.info("updated product {}", product);
-        return productMapper.mapToProductDto(product);
-
-
+        return product;
     }
 
-    public ProductDto getProductByName(String name) {
-        Product product = productDao.findByName(name);
-        return productMapper.mapToProductDto(product);
-    }
-
-    public void deleteProductByName(String name) throws ProductNotFoundException {
-        productDao.deleteByName(name);
-    }
-
-    public void deleteProductById(Long id) throws ProductNotFoundException {
-        productDao.deleteById(id);
-    }
-
-    public ProductDto getProductById(Long id) throws ProductNotFoundException {
-        Product product = productDao.findById(id).orElseThrow(ProductNotFoundException::new);
-        return productMapper.mapToProductDto(product);
-    }
 }
